@@ -13,27 +13,7 @@ export function TopNav() {
         </span>
       </div>
 
-      <nav className="hidden items-center gap-1 md:flex">
-        {[
-          { l: "产品" },
-          { l: "商城" },
-          { l: "关于我们" },
-          { l: "支持中心" },
-          { l: "工作台", active: true },
-          { l: "登录" },
-        ].map((i) => (
-          <button
-            key={i.l}
-            className={`rounded-md px-4 py-2 text-sm transition-colors ${
-              i.active
-                ? "bg-primary/15 text-primary"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {i.l}
-          </button>
-        ))}
-      </nav>
+      <NavLinks />
 
       <div className="flex items-center gap-2">
         <button className="rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground">
