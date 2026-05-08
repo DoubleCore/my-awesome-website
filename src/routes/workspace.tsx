@@ -6,7 +6,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { KnowledgeGraph } from "@/components/dashboard/KnowledgeGraph";
 import { PipelineRuns } from "@/components/dashboard/PipelineRuns";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/workspace")({
   component: Dashboard,
   head: () => ({
     meta: [
