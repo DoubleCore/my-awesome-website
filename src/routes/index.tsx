@@ -1,9 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ShieldCheck,
-  Workflow,
-  Brain,
-  Layers,
   ArrowRight,
   Network,
   Share2,
