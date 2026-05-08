@@ -2,7 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { LayoutGrid, MessageSquare, Cpu, Radio, Star, HelpCircle, ChevronLeft, ChevronDown } from "lucide-react";
 
 const items = [
-  { icon: LayoutGrid, label: "数据概览", to: "/" },
+  { icon: LayoutGrid, label: "数据概览", to: "/workspace" },
   { icon: MessageSquare, label: "人机对话", to: "/chat" },
   { icon: Cpu, label: "设备管理", to: "/devices" },
   { icon: Radio, label: "远控通道", to: "/remote" },
