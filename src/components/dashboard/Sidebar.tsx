@@ -1,14 +1,16 @@
+import { Link, useLocation } from "@tanstack/react-router";
 import { LayoutGrid, MessageSquare, Cpu, Radio, Star, HelpCircle, ChevronLeft, ChevronDown } from "lucide-react";
 
 const items = [
-  { icon: LayoutGrid, label: "数据概览", active: true },
-  { icon: MessageSquare, label: "人机对话" },
-  { icon: Cpu, label: "设备管理" },
-  { icon: Radio, label: "远控通道" },
-  { icon: Star, label: "积分订阅" },
-];
+  { icon: LayoutGrid, label: "数据概览", to: "/" },
+  { icon: MessageSquare, label: "人机对话", to: "/chat" },
+  { icon: Cpu, label: "设备管理", to: "/devices" },
+  { icon: Radio, label: "远控通道", to: "/remote" },
+  { icon: Star, label: "积分订阅", to: "/subscription" },
+] as const;
 
 export function Sidebar() {
+  const { pathname } = useLocation();
   return (
     <aside className="flex w-56 shrink-0 flex-col justify-between border-r border-border bg-sidebar/40 backdrop-blur-md">
       <div>
@@ -18,19 +20,23 @@ export function Sidebar() {
           </button>
         </div>
         <nav className="px-3">
-          {items.map((it) => (
-            <button
-              key={it.label}
-              className={`mb-1 flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors ${
-                it.active
-                  ? "bg-primary/15 text-primary glow-primary"
-                  : "text-muted-foreground hover:bg-sidebar-accent hover:text-foreground"
-              }`}
-            >
-              <it.icon className="h-4 w-4" />
-              {it.label}
-            </button>
-          ))}
+          {items.map((it) => {
+            const active = pathname === it.to;
+            return (
+              <Link
+                key={it.label}
+                to={it.to}
+                className={`mb-1 flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors ${
+                  active
+                    ? "bg-primary/15 text-primary glow-primary"
+                    : "text-muted-foreground hover:bg-sidebar-accent hover:text-foreground"
+                }`}
+              >
+                <it.icon className="h-4 w-4" />
+                {it.label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
 
