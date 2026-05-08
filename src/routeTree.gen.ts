@@ -10,12 +10,19 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkspaceRouteImport } from './routes/workspace'
+import { Route as RemoteRouteImport } from './routes/remote'
 import { Route as DevicesRouteImport } from './routes/devices'
 import { Route as ChatRouteImport } from './routes/chat'
+import { Route as IndexRouteImport } from './routes/index'
 
 const WorkspaceRoute = WorkspaceRouteImport.update({
   id: '/workspace',
   path: '/workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RemoteRoute = RemoteRouteImport.update({
+  id: '/remote',
+  path: '/remote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DevicesRoute = DevicesRouteImport.update({
@@ -28,34 +35,47 @@ const ChatRoute = ChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/devices': typeof DevicesRoute
+  '/remote': typeof RemoteRoute
   '/workspace': typeof WorkspaceRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/devices': typeof DevicesRoute
+  '/remote': typeof RemoteRoute
   '/workspace': typeof WorkspaceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/devices': typeof DevicesRoute
+  '/remote': typeof RemoteRoute
   '/workspace': typeof WorkspaceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/chat' | '/devices' | '/workspace'
+  fullPaths: '/' | '/chat' | '/devices' | '/remote' | '/workspace'
   fileRoutesByTo: FileRoutesByTo
-  to: '/chat' | '/devices' | '/workspace'
-  id: '__root__' | '/chat' | '/devices' | '/workspace'
+  to: '/' | '/chat' | '/devices' | '/remote' | '/workspace'
+  id: '__root__' | '/' | '/chat' | '/devices' | '/remote' | '/workspace'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   ChatRoute: typeof ChatRoute
   DevicesRoute: typeof DevicesRoute
+  RemoteRoute: typeof RemoteRoute
   WorkspaceRoute: typeof WorkspaceRoute
 }
 
@@ -66,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/workspace'
       fullPath: '/workspace'
       preLoaderRoute: typeof WorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/remote': {
+      id: '/remote'
+      path: '/remote'
+      fullPath: '/remote'
+      preLoaderRoute: typeof RemoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/devices': {
@@ -82,14 +109,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   ChatRoute: ChatRoute,
   DevicesRoute: DevicesRoute,
+  RemoteRoute: RemoteRoute,
   WorkspaceRoute: WorkspaceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
