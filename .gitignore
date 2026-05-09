@@ -20,6 +20,9 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Cloudflare Workers build output
+dist/server/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
